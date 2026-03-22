@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evgenia Gromova — CV</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── PASSWORD SCREEN ── */
+#password-screen {
+  position: fixed;
+  inset: 0;
+  background: #0A0A0A;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 24px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.pw-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  font-style: italic;
+  color: #2A9D8F;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.pw-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.pw-input-wrap {
+  display: flex;
+  gap: 0;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+#pw-input {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-right: none;
+  color: white;
+  padding: 12px 20px;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  outline: none;
+  border-radius: 8px 0 0 8px;
+  width: 220px;
+  transition: border-color 0.3s;
+}
+
+#pw-input:focus { border-color: rgba(42,157,143,0.5); }
+
+#pw-btn {
+  background: #2A9D8F;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border-radius: 0 8px 8px 0;
+  transition: background 0.2s;
+}
+
+#pw-btn:hover { background: #009E8E; }
+
+.pw-error {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: #FF4458;
+  letter-spacing: 0.1em;
+  height: 16px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.pw-error.show { opacity: 1; }
+
+/* ── MAIN CV ── */
+:root {
+  --cloud: #F5F3EE;
+  --cloud2: #EDE9E2;
+  --cloud3: #E0DDD7;
+  --cloud4: #D4D0C8;
+  --earth: #8B7355;
+  --earth-light: rgba(139,115,85,0.1);
+  --earth-border: rgba(139,115,85,0.2);
+  --teal: #2A9D8F;
+  --teal-light: rgba(42,157,143,0.08);
+  --teal-mid: rgba(42,157,143,0.15);
+  --teal-border: rgba(42,157,143,0.25);
+  --dark: #1C1A17;
+  --dark2: #2E2B26;
+  --mid: #6B6560;
+  --white: #FDFCF9;
+  --glass: rgba(253,252,249,0.75);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+#cv-content {
+  display: none;
+  background: var(--cloud);
+  color: var(--dark);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* GRAIN */
+.grain {
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ORGANIC BLOBS */
+.blob1 {
+  position: fixed;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(42,157,143,0.07) 0%, transparent 70%);
+  top: -250px; right: -250px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.blob2 {
+  position: fixed;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139,115,85,0.06) 0%, transparent 70%);
+  bottom: -150px; left: -150px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap { max-width: 1000px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 1; }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:0.3; transform:scale(0.75); }
+}
+
+.a1 { opacity:0; animation: fadeUp 1s 0.1s cubic-bezier(0.16,1,0.3,1) forwards; }
+.a2 { opacity:0; animation: fadeUp 1s 0.2s cubic-bezier(0.16,1,0.3,1) forwards; }
+.a3 { opacity:0; animation: fadeUp 1s 0.3s cubic-bezier(0.16,1,0.3,1) forwards; }
+.a4 { opacity:0; animation: fadeUp 1s 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
+.a5 { opacity:0; animation: fadeUp 1s 0.5s cubic-bezier(0.16,1,0.3,1) forwards; }
+.a6 { opacity:0; animation: fadeUp 1s 0.6s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+/* TOP BAR */
+.topbar {
+  background: var(--dark);
+  padding: 11px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.topbar-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--teal);
+  letter-spacing: 0.1em;
+}
+
+.pulse-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.topbar-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 3px 10px;
+  border-radius: 100px;
+}
+
+/* HEADER */
+header {
+  padding: 88px 0 72px;
+  position: relative;
+  overflow: hidden;
+}
+
+header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--cloud3) 20%, var(--teal) 50%, var(--cloud3) 80%, transparent);
+}
+
+/* GHOST LETTERS */
+.ghost {
+  position: absolute;
+  right: -15px;
+  bottom: -50px;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(140px, 24vw, 260px);
+  line-height: 1;
+  color: rgba(0,0,0,0.032);
+  pointer-events: none;
+  user-select: none;
+  font-style: italic;
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--teal-border);
+  color: var(--teal);
+  padding: 7px 18px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+
+/* HERO NAME */
+.hero-name {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: clamp(54px, 9.5vw, 108px);
+  line-height: 0.9;
+  color: var(--dark);
+  margin-bottom: 28px;
+  letter-spacing: -0.02em;
+  cursor: default;
+}
+
+.hero-name .first { display: block; }
+.hero-name .last {
+  display: block;
+  color: var(--teal);
+  font-style: italic;
+  transition: all 0.5s;
+}
+
+.hero-name:hover .last {
+  background: linear-gradient(90deg, var(--teal), var(--earth), var(--teal));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 2s linear infinite;
+}
+
+.hero-headline {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dark2);
+  margin-bottom: 8px;
+}
+
+.hero-tagline {
+  font-size: 13px;
+  color: var(--mid);
+  letter-spacing: 0.04em;
+  margin-bottom: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.hero-tagline .sep { color: var(--teal); font-weight: 700; }
+.hero-tagline .eor {
+  color: var(--dark);
+  font-weight: 500;
+  font-style: italic;
+}
+
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--mid);
+}
+
+.contact-row a {
+  color: var(--mid);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+  transition: all 0.25s;
+}
+.contact-row a:hover { color: var(--teal); border-bottom-color: var(--teal); }
+
+/* SECTIONS */
+section { padding: 64px 0; position: relative; z-index: 1; }
+section + section { border-top: 1px solid var(--cloud3); }
+
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.sec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  color: var(--earth);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sec-rule { flex: 1; height: 1px; background: linear-gradient(to right, var(--cloud3), transparent); }
+
+.sec-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--cloud4);
+}
+
+/* COMPANY */
+.company-block { margin-bottom: 52px; }
+.company-block:last-child { margin-bottom: 0; }
+
+.company-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.company-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  color: var(--earth);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.company-rule { flex: 1; height: 1px; background: var(--cloud3); }
+.company-year { font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--mid); white-space: nowrap; }
+
+/* ROLE CARD — glassmorphism */
+.role {
+  margin-bottom: 16px;
+  padding: 24px 28px;
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.85);
+  border-radius: 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04), 0 4px 20px rgba(0,0,0,0.03), inset 0 1px 0 rgba(255,255,255,0.9);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+  overflow: hidden;
+}
+
+.role::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 14px; bottom: 14px;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--teal), rgba(42,157,143,0.15));
+  border-radius: 0 3px 3px 0;
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+
+.role:hover {
+  border-color: var(--teal-border);
+  box-shadow: 0 6px 32px rgba(42,157,143,0.1), 0 1px 4px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95);
+  transform: translateY(-2px);
+}
+.role:hover::before { opacity: 1; }
+
+.role-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.role-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--mid);
+  margin-bottom: 14px;
+  letter-spacing: 0.03em;
+}
+
+.mission {
+  background: linear-gradient(135deg, rgba(139,115,85,0.07), rgba(42,157,143,0.04));
+  border-left: 2px solid var(--earth);
+  border-radius: 0 10px 10px 0;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: var(--mid);
+  font-style: italic;
+  line-height: 1.75;
+}
+
+.bullets { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+
+.bullets li {
+  display: flex;
+  gap: 12px;
+  font-size: 12.5px;
+  color: #5a5550;
+  line-height: 1.55;
+  align-items: flex-start;
+}
+
+.bullets li .ico { flex-shrink: 0; width: 20px; text-align: center; margin-top: 2px; }
+.bullets li strong { color: var(--dark); font-weight: 500; }
+
+/* SUPERPOWERS */
+.sp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+  gap: 14px;
+}
+
+/* FLIP CARD */
+.sp-card {
+  height: 140px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.sp-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  transform-style: preserve-3d;
+}
+
+.sp-card:hover .sp-card-inner {
+  transform: rotateY(180deg);
+}
+
+.sp-front, .sp-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  padding: 22px 24px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.sp-front {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.88);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.sp-back {
+  background: linear-gradient(135deg, var(--teal), var(--teal-dark, #1d7a6e));
+  border: 1px solid var(--teal-border);
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.sp-icon {
+  font-size: 24px;
+  margin-bottom: 10px;
+  display: block;
+  animation: float 4s ease-in-out infinite;
+}
+
+.sp-card:nth-child(2) .sp-icon { animation-delay: 0.5s; }
+.sp-card:nth-child(3) .sp-icon { animation-delay: 1s; }
+.sp-card:nth-child(4) .sp-icon { animation-delay: 1.5s; }
+.sp-card:nth-child(5) .sp-icon { animation-delay: 2s; }
+.sp-card:nth-child(6) .sp-icon { animation-delay: 2.5s; }
+
+.sp-title { font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 5px; }
+.sp-desc { font-size: 11px; color: var(--mid); line-height: 1.6; }
+
+.sp-back-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.95);
+  line-height: 1.3;
+}
+
+.sp-back-hint {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: auto;
+}
+
+
+
+/* PROFILE SECTION */
+.profile-bg { background: linear-gradient(135deg, var(--cloud2), var(--cloud)); }
+
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 0.9fr;
+  gap: 52px;
+}
+
+@media (max-width: 720px) {
+  .bottom-grid { grid-template-columns: 1fr; gap: 36px; }
+  .wrap { padding: 0 20px; }
+  header { padding: 56px 0 64px; }
+  .topbar { padding: 10px 20px; }
+  .sp-grid { grid-template-columns: 1fr; }
+  .sp-card { height: 140px; }
+}
+
+.bottom-sec h3 {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  color: var(--earth);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--cloud3);
+}
+
+.edu-item { margin-bottom: 16px; }
+.edu-degree { font-size: 12px; font-weight: 500; color: var(--dark); margin-bottom: 3px; line-height: 1.4; }
+.edu-school { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--mid); }
+
+.tool-group { margin-bottom: 13px; }
+.tool-cat { font-size: 9.5px; font-weight: 600; color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+.tool-list { font-size: 11px; color: var(--mid); line-height: 1.7; }
+
+.lang-group { margin-bottom: 16px; }
+.lang-level { font-size: 9.5px; font-weight: 600; color: var(--mid); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+.lang-names { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.lang-tag {
+  background: var(--white);
+  border: 1px solid var(--cloud3);
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-size: 11.5px;
+  color: var(--dark2);
+  transition: all 0.2s;
+}
+
+.lang-tag.native {
+  background: linear-gradient(135deg, rgba(42,157,143,0.1), rgba(42,157,143,0.05));
+  border-color: var(--teal-border);
+  color: var(--teal);
+  font-weight: 500;
+}
+
+/* FOOTER */
+footer {
+  background: var(--dark);
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-name { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.2); letter-spacing: 0.12em; text-transform: uppercase; }
+.footer-year { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.2); letter-spacing: 0.12em; text-transform: uppercase; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--cloud); }
+::-webkit-scrollbar-thumb { background: var(--cloud3); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--teal); }
+::selection { background: rgba(42,157,143,0.18); color: var(--dark); }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="password-screen">
+  <div class="pw-logo">EG</div>
+  <div class="pw-label">Enter password to view CV</div>
+  <div class="pw-input-wrap">
+    <input type="password" id="pw-input" placeholder="password" onkeydown="if(event.key==='Enter')checkPw()">
+    <button id="pw-btn" onclick="checkPw()">Enter</button>
+  </div>
+  <div class="pw-error" id="pw-error">Incorrect password. Try again.</div>
+</div>
+
+<!-- CV CONTENT -->
+<div id="cv-content">
+  <div class="grain"></div>
+  <div class="blob1"></div>
+  <div class="blob2"></div>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <span class="topbar-name">Evgenia Gromova · CV</span>
+    <div class="topbar-right">
+      <div class="topbar-status">
+        <span class="pulse-dot"></span>
+        Open to opportunities
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="wrap">
+      <div class="ghost">EG</div>
+      <div class="header-badge a1">
+        <span class="pulse-dot"></span>
+        Before the structure exists
+      </div>
+      <div class="hero-name a2">
+        <span class="first">Evgenia</span>
+        <span class="last">Gromova</span>
+      </div>
+      <p class="hero-headline a3">🌟 Client-First Across Full SaaS Journey</p>
+      <div class="hero-tagline a4">
+        <span>Sees the gap</span>
+        <span class="sep">·</span>
+        <span>Builds the fix</span>
+        <span class="sep">·</span>
+        <span>Every client counts</span>
+        <span class="sep">·</span>
+        <span>Multilingual</span>
+        <span class="sep">·</span>
+        <span>EOR insider. been there</span>
+      </div>
+      <div class="contact-row a5">
+        <span>📍 Barcelona, Spain</span>
+        <span>📧 evgeniagrom [at] gmail.com</span>
+        <a href="https://linkedin.com/in/evgenia-gromova-jr" target="_blank">💼 linkedin.com/in/evgenia-gromova-jr</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- EXPERIENCE -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-label">💼 Experience</span>
+        <span class="sec-rule"></span>
+      </div>
+
+      <!-- COMPANY 1 -->
+      <div class="company-block">
+        <div class="company-row">
+          <span class="company-name">Brevo (ex Sendinblue) · Digital Marketing SaaS Platform</span>
+          <span class="company-rule"></span>
+          <span class="company-year">2020 – Present</span>
+        </div>
+
+        <div class="role">
+          <div class="role-title">💰 Senior Accounts Receivable & Sales Administration Specialist</div>
+          <div class="role-meta">Feb 2023 – Present · Seattle, US → Barcelona, ES · Remote · Enterprise, Global</div>
+          <div class="mission">SaaS companies serving Enterprise, Corporate & Midmarket segments long assumed subscription models eliminated the need for dedicated AR. It was an emerging reality most discovered later... By identifying it early, I proposed the transition and started building from zero · no blueprint · no precedent · no handbook.</div>
+          <ul class="bullets">
+            <li><span class="ico">🏆</span><span><strong>20-25% of overdue balance recovered monthly in Q1 2026</strong> · <strong>800+ Enterprise & Key Account clients</strong> globally · Smart Dunning · AI-integrated</span></li>
+            <li><span class="ico">🌍</span><span><strong>Truly global portfolio</strong> · all regions · all simultaneously</span></li>
+            <li><span class="ico">📚</span><span>Trained CSM team · AE team · own AR team · <strong>onboarded own manager 3 months straight</strong></span></li>
+            <li><span class="ico">⚖️</span><span>Full recovery chain · billing · agencies · insolvency · settlements — building and still standing</span></li>
+          </ul>
+        </div>
+
+        <div class="role">
+          <div class="role-title">🤝 Customer Success Manager &nbsp;+&nbsp; 🔧 Technical Support Specialist</div>
+          <div class="role-meta">Aug 2022 – Aug 2023 (CSM) · Apr 2021 – Apr 2023 (Technical) · Seattle, US · Hybrid · Dual role</div>
+          <div class="mission">In a fast-growing company where everyone wore multiple hats, mine covered commercial, technical AND payments — for 200 Enterprise & Mid-Market accounts. As the only US-based Spanish-speaking CSM.</div>
+          <ul class="bullets">
+            <li><span class="ico">🏆</span><span><strong>200 accounts</strong> owned end-to-end · LATAM + Spanish Enterprise · Mid-Market</span></li>
+            <li><span class="ico">🌎</span><span><strong>Only US-based Spanish-speaking CSM</strong></span></li>
+            <li><span class="ico">🔧</span><span>First Enterprise L1-L2 Support team · built from zero · owned full technical escalation scope — deliverability · integrations · implementations & beyond</span></li>
+            <li><span class="ico">⚡</span><span>Led team efforts building SLA automated alerting system for Enterprise clients due to multiple time zones</span></li>
+            <li><span class="ico">💡</span><span>Spotted growing payments crisis in own portfolio · proposed and made the case for transition to Finance Team</span></li>
+          </ul>
+        </div>
+
+        <div class="role">
+          <div class="role-title">💬 Customer Experience Specialist</div>
+          <div class="role-meta">Mar 2020 – Apr 2021 · Seattle, US · Remote · SMB, Bilingual</div>
+          <div class="mission">Joined SaaS deliberately — transitioning from analog to digital, starting from the ground up. COVID arrived. Curiosity stayed.</div>
+          <ul class="bullets">
+            <li><span class="ico">📞</span><span>Client ticket & call management · billing · subscriptions · marketing automation</span></li>
+            <li><span class="ico">⬆️</span><span>Tier 2 & Tier 3 escalation coordination · onboarded new team members from day one</span></li>
+            <li><span class="ico">💳</span><span>Became go-to specialist in payments & billing · supporting CX team across all regions</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- COMPANY 2 -->
+      <div class="company-block">
+        <div class="company-row">
+          <span class="company-name">Workline Group · Market Research & Business Consulting</span>
+          <span class="company-rule"></span>
+          <span class="company-year">2012 – 2020</span>
+        </div>
+        <div class="role">
+          <div class="role-title">🌐 International Project Manager → External Consultant</div>
+          <div class="role-meta">May 2012 – Jul 2015 (PM) · Jul 2015 – Dec 2020 (Consultant) · Remote, ES → US</div>
+          <div class="mission">Global client work across 3 continents — &quot;discovering psychological patterns&quot; in markets, brands and consumer behaviour through proprietary models and methods</div>
+          <ul class="bullets">
+            <li><span class="ico">🏆</span><span><strong>70+ projects</strong> · RU · US · UK · FR · IT · ES · BE · FI · SE · NO · PL · UA · KZ · JP · KR · ID</span></li>
+            <li><span class="ico">🧠</span><span>Culture Code methodology with <strong>Dr. Clotaire Rapaille</strong> · Archetype Discoveries Worldwide</span></li>
+            <li><span class="ico">🌍</span><span>International account management · new business development · cross-border project execution</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- COMPANY 3 -->
+      <div class="company-block">
+        <div class="company-row">
+          <span class="company-name">Burton Snowboards · Action Sports</span>
+          <span class="company-rule"></span>
+          <span class="company-year">2009 – 2012</span>
+        </div>
+        <div class="role">
+          <div class="role-title">📊 Credit Accountant</div>
+          <div class="role-meta">Sep 2009 – Apr 2012 · Innsbruck, AT · On-site</div>
+          <div class="mission">Packed a board and followed the snow to Austria. Started a career in finance along the way. First exposure to Enterprise AR at scale — &quot;some things find you&quot;</div>
+          <ul class="bullets">
+            <li><span class="ico">🏆</span><span><strong>~700 accounts · 34 EMEA countries · 12 brands</strong> · retailers · key accounts · distributors</span></li>
+            <li><span class="ico">📋</span><span>Built invoicing processes from scratch · developed Credit Division training materials</span></li>
+            <li><span class="ico">🤝</span><span>EMEA tradeshow presence · distributor relationships · improved CEI & AR performance</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPERPOWERS -->
+  <section style="background: linear-gradient(180deg, var(--cloud) 0%, var(--cloud2) 100%);">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-label">⚡ Skillpowers</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="sp-grid">
+        <div class="sp-card">
+          <div class="sp-card-inner">
+            <div class="sp-front"><span class="sp-icon">🧠</span><div class="sp-title">Pattern recognition memory</div><div class="sp-desc">See it coming. Always.</div></div>
+            <div class="sp-back"><div class="sp-back-title">Strategic Analysis & Process Optimization</div></div>
+          </div>
+        </div>
+        <div class="sp-card">
+          <div class="sp-card-inner">
+            <div class="sp-front"><span class="sp-icon">❤️</span><div class="sp-title">Difficult conversations welcome</div><div class="sp-desc">Where others avoid, walk straight in.</div></div>
+            <div class="sp-back"><div class="sp-back-title">Client Negotiation & Conflict Resolution</div></div>
+          </div>
+        </div>
+        <div class="sp-card">
+          <div class="sp-card-inner">
+            <div class="sp-front"><span class="sp-icon">🔧</span><div class="sp-title">Workaround mindset on</div><div class="sp-desc">No process, no problem.</div></div>
+            <div class="sp-back"><div class="sp-back-title">Problem Solving & Operational Agility</div></div>
+          </div>
+        </div>
+        <div class="sp-card">
+          <div class="sp-card-inner">
+            <div class="sp-front"><span class="sp-icon">🧩</span><div class="sp-title">Chaos? Bring it.</div><div class="sp-desc">Mess in, structure out.</div></div>
+            <div class="sp-back"><div class="sp-back-title">Change Management & Process Design</div></div>
+          </div>
+        </div>
+        <div class="sp-card">
+          <div class="sp-card-inner">
+            <div class="sp-front"><span class="sp-icon">🤖</span><div class="sp-title">Human + machine thinker</div><div class="sp-desc">Know when AI helps and when humans must lead.</div></div>
+            <div class="sp-back"><div class="sp-back-title">AI Integration & Digital Transformation</div></div>
+          </div>
+        </div>
+        <div class="sp-card">
+          <div class="sp-card-inner">
+            <div class="sp-front"><span class="sp-icon">🌱</span><div class="sp-title">Where needed most</div><div class="sp-desc">Shows up. Every time.</div></div>
+            <div class="sp-back"><div class="sp-back-title">Cross-functional Leadership & Initiative</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section class="profile-bg">
+    <div class="wrap">
+      <div class="bottom-grid">
+
+        <div class="bottom-sec">
+          <h3>🎓 Education</h3>
+          <div class="edu-item">
+            <div class="edu-degree">M.A. Advertising & Public Relations</div>
+            <div class="edu-school">UOC.edu · 2009–2011</div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-degree">B.A. Journalism & Communication Studies</div>
+            <div class="edu-school">URL.edu · 2006–2009</div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-degree">DIP. Photography, spec. Photojournalism</div>
+            <div class="edu-school">IDEP.es (UAO) · 2004–2006</div>
+          </div>
+        </div>
+
+        <div class="bottom-sec">
+          <h3>🛠️ Toolstack</h3>
+          <div class="tool-group">
+            <div class="tool-cat">Acquire</div>
+            <div class="tool-list">Salesforce · HubSpot · Gong · Brevo CRM · MailChimp</div>
+          </div>
+          <div class="tool-group">
+            <div class="tool-cat">Retain</div>
+            <div class="tool-list">Zendesk · Planhat · Gainsight · Dovetail</div>
+          </div>
+          <div class="tool-group">
+            <div class="tool-cat">Recover</div>
+            <div class="tool-list">Chargebee · Adyen · PayPal · Stripe · Billabex AI · SAP · Deel</div>
+          </div>
+          <div class="tool-group">
+            <div class="tool-cat">Operate</div>
+            <div class="tool-list">Slack · G Suite · Asana · Wrike · Zapier · Loom · Datadog · Jira · Atlassian · Microsoft 365</div>
+          </div>
+          <div class="tool-group">
+            <div class="tool-cat">Create</div>
+            <div class="tool-list">Adobe Creative Cloud · Notion · Miro · WordPress</div>
+          </div>
+          <div class="tool-group">
+            <div class="tool-cat">Augment</div>
+            <div class="tool-list">ChatGPT · Claude · Perplexity · Dust · Omni</div>
+          </div>
+        </div>
+
+        <div class="bottom-sec">
+          <h3>🌍 Languages</h3>
+          <div class="lang-group">
+            <div class="lang-level">Trilingual</div>
+            <div class="lang-names">
+              <span class="lang-tag native">Spanish</span>
+              <span class="lang-tag native">English</span>
+              <span class="lang-tag native">Russian</span>
+            </div>
+          </div>
+          <div class="lang-group">
+            <div class="lang-level">Professional</div>
+            <div class="lang-names">
+              <span class="lang-tag">Catalan</span>
+            </div>
+          </div>
+          <div class="lang-group">
+            <div class="lang-level">Elementary</div>
+            <div class="lang-names">
+              <span class="lang-tag">Italian</span>
+              <span class="lang-tag">German</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-name">Evgenia Gromova · CV</span>
+    <span class="footer-year">Barcelona · 2026</span>
+  </footer>
+
+</div>
+
+<script>
+  var PASSWORD = "evgenia2026";
+
+  function checkPw() {
+    var input = document.getElementById('pw-input').value;
+    var error = document.getElementById('pw-error');
+    if (input === PASSWORD) {
+      document.getElementById('password-screen').style.display = 'none';
+      document.getElementById('cv-content').style.display = 'block';
+      document.body.style.background = '#F5F3EE';
+    } else {
+      error.style.opacity = '1';
+      document.getElementById('pw-input').value = '';
+      setTimeout(function(){ error.style.opacity = '0'; }, 3000);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var input = document.getElementById('pw-input');
+    if (input) {
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') checkPw();
+      });
+    }
+  });
+</script></body>
+</html>
