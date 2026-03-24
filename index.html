@@ -492,61 +492,46 @@ section + section { border-top: 1px solid var(--cloud3); }
   gap: 14px;
 }
 
-/* FLIP CARD */
 .sp-card {
-  height: 140px;
-  perspective: 1000px;
-  cursor: pointer;
-}
-
-.sp-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
-  transform-style: preserve-3d;
-}
-
-.sp-card:hover .sp-card-inner {
-  transform: rotateY(180deg);
-}
-
-.sp-front, .sp-back {
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  padding: 22px 24px;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.sp-front {
   background: var(--glass);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255,255,255,0.88);
+  border-radius: 18px;
+  padding: 22px 24px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+  overflow: hidden;
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 
-.sp-back {
-  background: linear-gradient(135deg, var(--teal), var(--teal-dark, #1d7a6e));
-  border: 1px solid var(--teal-border);
-  transform: rotateY(180deg);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 8px;
+.sp-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--teal-mid), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s;
+  border-radius: 18px;
 }
+
+.sp-card:hover {
+  border-color: var(--teal-border);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(42,157,143,0.12), inset 0 1px 0 rgba(255,255,255,0.95);
+}
+
+.sp-card:hover::after { opacity: 1; }
 
 .sp-icon {
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   display: block;
   animation: float 4s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
 }
 
 .sp-card:nth-child(2) .sp-icon { animation-delay: 0.5s; }
@@ -555,8 +540,30 @@ section + section { border-top: 1px solid var(--cloud3); }
 .sp-card:nth-child(5) .sp-icon { animation-delay: 2s; }
 .sp-card:nth-child(6) .sp-icon { animation-delay: 2.5s; }
 
-.sp-title { font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 5px; }
-.sp-desc { font-size: 11px; color: var(--mid); line-height: 1.6; }
+.sp-title { font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 5px; position: relative; z-index: 1; }
+.sp-desc { font-size: 11px; color: var(--mid); line-height: 1.6; position: relative; z-index: 1; }
+.sp-pro {
+  font-size: 9.5px;
+  color: var(--teal);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.06em;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--teal-border);
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+}
+.sp-pro {
+  font-size: 9.5px;
+  color: var(--teal);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.06em;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--teal-border);
+  font-weight: 500;
+}
 
 .sp-back-title {
   font-size: 13px;
@@ -585,13 +592,104 @@ section + section { border-top: 1px solid var(--cloud3); }
   gap: 52px;
 }
 
-@media (max-width: 720px) {
-  .bottom-grid { grid-template-columns: 1fr; gap: 36px; }
-  .wrap { padding: 0 20px; }
-  header { padding: 56px 0 64px; }
-  .topbar { padding: 10px 20px; }
+@media (max-width: 768px) {
+  /* WRAP */
+  .wrap { padding: 0 16px; }
+
+  /* TOPBAR */
+  .topbar { padding: 10px 16px; }
+  .topbar-tag { display: none; }
+
+  /* HEADER */
+  header { padding: 40px 0 36px; }
+  .hero-name { font-size: clamp(42px, 13vw, 72px); margin-bottom: 16px; }
+  .hero-headline { font-size: 9px; letter-spacing: 0.08em; }
+  .hero-tagline { font-size: 11px; gap: 6px; margin-bottom: 20px; }
+  .header-badge { font-size: 8px; padding: 5px 12px; margin-bottom: 20px; }
+  .ghost { display: none; }
+
+  /* CONTACT ROW */
+  .contact-row {
+    flex-direction: column;
+    gap: 8px;
+    font-size: 10px;
+  }
+
+  /* SECTIONS */
+  section { padding: 36px 0; }
+
+  /* COMPANY ROW — dates stay visible */
+  .company-row {
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: flex-start;
+  }
+  .company-name {
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    white-space: normal;
+    flex: 1;
+    min-width: 0;
+  }
+  .company-rule { display: none; }
+  .company-year {
+    font-size: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ROLE CARDS */
+  .role { padding: 16px 16px; border-radius: 12px; margin-bottom: 12px; }
+  .role-title { font-size: 12px; line-height: 1.4; }
+  .role-meta {
+    font-size: 8.5px;
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+    white-space: normal;
+    word-break: break-word;
+  }
+  .mission { font-size: 10.5px; padding: 10px 12px; }
+  .bullets li { font-size: 11px; gap: 8px; }
+  .bullets li .ico { width: 16px; }
+
+  /* SKILLPOWERS */
+  .sp-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .sp-card { 
+    height: auto !important;
+    min-height: 120px;
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .sp-icon { font-size: 20px; margin-bottom: 8px; }
+  .sp-title { font-size: 11px; }
+  .sp-desc { font-size: 9.5px; }
+  .sp-pro { font-size: 8.5px; }
+
+  /* BOTTOM GRID */
+  .bottom-grid { grid-template-columns: 1fr; gap: 28px; }
+  .bottom-sec h3 { font-size: 8.5px; }
+  .edu-degree { font-size: 11px; }
+  .edu-school { font-size: 9px; }
+  .tool-cat { font-size: 8.5px; }
+  .tool-list { font-size: 10px; }
+  .lang-level { font-size: 8.5px; }
+  .lang-tag { font-size: 10.5px; padding: 3px 10px; }
+
+  /* SECTION HEADER */
+  .sec-label { font-size: 8.5px; }
+  .sec-head { margin-bottom: 28px; }
+
+  /* FOOTER */
+  footer { padding: 20px 16px; }
+  .footer-name, .footer-year { font-size: 8px; }
+}
+
+/* SMALL PHONES — iPhone SE etc */
+@media (max-width: 390px) {
+  .hero-name { font-size: 38px; }
   .sp-grid { grid-template-columns: 1fr; }
-  .sp-card { height: 140px; }
+  .role-meta { font-size: 8px; }
+  .contact-row { font-size: 9px; }
 }
 
 .bottom-sec h3 {
@@ -651,6 +749,155 @@ footer {
 ::-webkit-scrollbar-thumb { background: var(--cloud3); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--teal); }
 ::selection { background: rgba(42,157,143,0.18); color: var(--dark); }
+
+
+
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* HIDE DARK/PROBLEMATIC ELEMENTS */
+  .topbar { display: none !important; }
+  .blob1, .blob2, .grain { display: none !important; }
+  .ghost { display: none !important; }
+  #password-screen { display: none !important; }
+  #cv-content { display: block !important; }
+
+  /* BODY — light background */
+  body {
+    background: #F5F3EE !important;
+    color: #1C1A17 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* HEADER — clean light */
+  header {
+    background: #EDE9E2 !important;
+    padding: 24px 40px 20px !important;
+    border-bottom: 2px solid #2A9D8F !important;
+    overflow: visible !important;
+  }
+
+  /* ANIMATIONS OFF — show all elements */
+  .a1, .a2, .a3, .a4, .a5, .a6 {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* HEADER BADGE */
+  .header-badge {
+    display: inline-flex !important;
+    background: rgba(42,157,143,0.1) !important;
+    border: 1px solid rgba(42,157,143,0.25) !important;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 28px 0 !important;
+  }
+
+  section.profile-bg {
+    background: #EDE9E2 !important;
+  }
+
+  /* ROLE CARDS — remove glass, use solid */
+  .role {
+    background: #FDFCF9 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid #E0DDD7 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 12px !important;
+  }
+
+  .role::before { display: none !important; }
+
+  .mission {
+    background: rgba(139,115,85,0.06) !important;
+  }
+
+  /* COMPANY BLOCKS */
+  .company-block {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* SKILLPOWERS GRID — 3 columns */
+  .sp-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 10px !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .sp-card {
+    background: #FDFCF9 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid #E0DDD7 !important;
+    box-shadow: none !important;
+    border-radius: 12px !important;
+    padding: 14px 16px !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    transform: none !important;
+    overflow: visible !important;
+  }
+
+  .sp-card::after { display: none !important; }
+  .sp-icon { font-size: 18px !important; margin-bottom: 6px !important; }
+  .sp-title { font-size: 10pt !important; }
+  .sp-desc { font-size: 8.5pt !important; font-style: italic; }
+  .sp-pro {
+    font-size: 7.5pt !important;
+    color: #2A9D8F !important;
+    border-top: 1px solid rgba(42,157,143,0.25) !important;
+    padding-top: 6px !important;
+    margin-top: 6px !important;
+  }
+
+  /* BOTTOM GRID */
+  .bottom-grid {
+    grid-template-columns: 1fr 1.5fr 0.9fr !important;
+  }
+
+  /* LANGUAGE TAGS */
+  .lang-tag {
+    background: #F5F3EE !important;
+    border: 1px solid #E0DDD7 !important;
+  }
+  .lang-tag.native {
+    background: rgba(42,157,143,0.1) !important;
+    color: #2A9D8F !important;
+  }
+
+  /* FOOTER — keep dark but visible */
+  footer {
+    display: flex !important;
+    background: #1C1A17 !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  /* SECTION BACKGROUNDS */
+  section[style*="background"] {
+    background: #EDE9E2 !important;
+  }
+
+  /* PAGE BREAKS */
+  .company-block + .company-block {
+    page-break-before: auto;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -815,46 +1062,15 @@ footer {
         <span class="sec-label">⚡ Skillpowers</span>
         <span class="sec-rule"></span>
       </div>
-      <div class="sp-grid">
-        <div class="sp-card">
-          <div class="sp-card-inner">
-            <div class="sp-front"><span class="sp-icon">🧠</span><div class="sp-title">Pattern recognition memory</div><div class="sp-desc">See it coming. Always.</div></div>
-            <div class="sp-back"><div class="sp-back-title">Strategic Analysis & Process Optimization</div></div>
-          </div>
-        </div>
-        <div class="sp-card">
-          <div class="sp-card-inner">
-            <div class="sp-front"><span class="sp-icon">❤️</span><div class="sp-title">Difficult conversations welcome</div><div class="sp-desc">Where others avoid, walk straight in.</div></div>
-            <div class="sp-back"><div class="sp-back-title">Client Negotiation & Conflict Resolution</div></div>
-          </div>
-        </div>
-        <div class="sp-card">
-          <div class="sp-card-inner">
-            <div class="sp-front"><span class="sp-icon">🔧</span><div class="sp-title">Workaround mindset on</div><div class="sp-desc">No process, no problem.</div></div>
-            <div class="sp-back"><div class="sp-back-title">Problem Solving & Operational Agility</div></div>
-          </div>
-        </div>
-        <div class="sp-card">
-          <div class="sp-card-inner">
-            <div class="sp-front"><span class="sp-icon">🧩</span><div class="sp-title">Chaos? Bring it.</div><div class="sp-desc">Mess in, structure out.</div></div>
-            <div class="sp-back"><div class="sp-back-title">Change Management & Process Design</div></div>
-          </div>
-        </div>
-        <div class="sp-card">
-          <div class="sp-card-inner">
-            <div class="sp-front"><span class="sp-icon">🤖</span><div class="sp-title">Human + machine thinker</div><div class="sp-desc">Know when AI helps and when humans must lead.</div></div>
-            <div class="sp-back"><div class="sp-back-title">AI Integration & Digital Transformation</div></div>
-          </div>
-        </div>
-        <div class="sp-card">
-          <div class="sp-card-inner">
-            <div class="sp-front"><span class="sp-icon">🌱</span><div class="sp-title">Where needed most</div><div class="sp-desc">Shows up. Every time.</div></div>
-            <div class="sp-back"><div class="sp-back-title">Cross-functional Leadership & Initiative</div></div>
-          </div>
-        </div>
+            <div class="sp-grid">
+        <div class="sp-card"><span class="sp-icon">🧠</span><div class="sp-title">Pattern recognition memory</div><div class="sp-desc">See it coming. Always.</div><div class="sp-pro">Strategic Analysis & Process Optimization</div></div>
+        <div class="sp-card"><span class="sp-icon">❤️</span><div class="sp-title">Difficult conversations welcome</div><div class="sp-desc">Where others avoid, walk straight in.</div><div class="sp-pro">Client Negotiation & Conflict Resolution</div></div>
+        <div class="sp-card"><span class="sp-icon">🔧</span><div class="sp-title">Workaround mindset on</div><div class="sp-desc">No process, no problem.</div><div class="sp-pro">Problem Solving & Operational Agility</div></div>
+        <div class="sp-card"><span class="sp-icon">🧩</span><div class="sp-title">Chaos? Bring it.</div><div class="sp-desc">Mess in, structure out.</div><div class="sp-pro">Change Management & Process Design</div></div>
+        <div class="sp-card"><span class="sp-icon">🤖</span><div class="sp-title">Human + machine thinker</div><div class="sp-desc">Know when AI helps and when humans must lead.</div><div class="sp-pro">AI Integration & Digital Transformation</div></div>
+        <div class="sp-card"><span class="sp-icon">🌱</span><div class="sp-title">Where needed most</div><div class="sp-desc">Shows up. Every time.</div><div class="sp-pro">Cross-functional Leadership & Initiative</div></div>
       </div>
-    </div>
-  </section>
+      </section>
 
   <!-- PROFILE -->
   <section class="profile-bg">
@@ -966,5 +1182,27 @@ footer {
       });
     }
   });
-</script></body>
+</script>
+
+<style>
+.print-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99998;
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: 100px;
+  padding: 10px 20px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(42,157,143,0.3);
+}
+@media print { .print-btn { display: none !important; } }
+</style>
+<button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+</body>
 </html>
